@@ -181,8 +181,8 @@ export default function ManageLayout({
               </Button>
               <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" />
               <div className="flex items-center gap-x-4">
-                <div className="text-sm font-medium text-gray-900">
-                  Admin User
+                <div className="text-sm font-medium text-gray-900 w-full">
+                  Admin
                 </div>
                 <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
                   <span className="text-sm font-medium text-green-800">A</span>

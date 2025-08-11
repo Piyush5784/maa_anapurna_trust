@@ -79,10 +79,7 @@ export const Topbar = () => {
             ))}
           </div>
 
-          <button className="w-full p-2 border-b">Log In</button>
-          <div className="p-1">
-            <Button>Sign up free</Button>
-          </div>
+          <LoginButton />
         </div>
       </motion.div>
     </div>
