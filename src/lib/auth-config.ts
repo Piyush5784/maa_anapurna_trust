@@ -23,6 +23,10 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET!,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
     async signIn({ user, account, profile }) {
@@ -52,11 +56,20 @@ export const authOptions: NextAuthOptions = {
       }
     },
     async jwt({ token, user }) {
+      console.log("[AUTH] JWT callback - token:", !!token, "user:", !!user);
+
       if (user) {
         // Get user from database
         const dbUser = await prisma.user.findUnique({
           where: { email: user.email! },
         });
+
+        console.log(
+          "[AUTH] Database user found:",
+          !!dbUser,
+          "role:",
+          dbUser?.role
+        );
 
         if (dbUser) {
           token.uid = dbUser.id;
@@ -64,8 +77,11 @@ export const authOptions: NextAuthOptions = {
           token.name = dbUser.name!;
           token.picture = dbUser.image!;
           token.role = dbUser.role; // Include role in token
+          console.log("[AUTH] Token updated with role:", token.role);
         }
       }
+
+      console.log("[AUTH] Returning token with role:", token.role);
       return token;
     },
     async session({ session, token }) {
