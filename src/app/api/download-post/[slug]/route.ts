@@ -4,10 +4,10 @@ import path from "path";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = params;
+    const { slug } = await params;
     const backupDir = path.join(process.cwd(), "backups");
     const filePath = path.join(backupDir, `${slug}.md`);
 

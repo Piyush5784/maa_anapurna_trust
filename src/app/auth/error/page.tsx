@@ -10,9 +10,9 @@ import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
 interface ErrorPageProps {
-  searchParams: {
+  searchParams: Promise<{
     error?: string;
-  };
+  }>;
 }
 
 const errorMessages: Record<string, string> = {
