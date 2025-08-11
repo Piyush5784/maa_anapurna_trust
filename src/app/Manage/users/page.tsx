@@ -101,16 +101,19 @@ export default async function UsersPage() {
       {/* Users Table */}
       <Card>
         <CardHeader>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-4">
             <div>
               <CardTitle>All Users</CardTitle>
               <CardDescription>
                 Manage and monitor user accounts ({users.length} total)
               </CardDescription>
             </div>
-            <div className="flex gap-2">
-              <Input placeholder="Search users..." className="w-64" />
-              <Button variant="outline">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <Input
+                placeholder="Search users..."
+                className="flex-1 sm:max-w-xs"
+              />
+              <Button variant="outline" className="w-full sm:w-auto">
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
               </Button>
@@ -141,7 +144,7 @@ export default async function UsersPage() {
                 {users.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 truncate">
                         {user.image ? (
                           <img
                             src={user.image}
@@ -160,7 +163,9 @@ export default async function UsersPage() {
                         {user.name || "No name"}
                       </div>
                     </TableCell>
-                    <TableCell>{user.email || "No email"}</TableCell>
+                    <TableCell className="truncate">
+                      {user.email || "No email"}
+                    </TableCell>
                     <TableCell>
                       <Badge
                         variant={

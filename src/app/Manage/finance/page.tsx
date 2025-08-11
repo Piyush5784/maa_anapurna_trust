@@ -137,7 +137,7 @@ export default function FinancePage() {
         {/* Recent Transactions */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <CardTitle className="flex items-center gap-2">
                   <CreditCard className="w-5 h-5 text-green-600" />
@@ -147,7 +147,7 @@ export default function FinancePage() {
                   Latest donations and payments received
                 </CardDescription>
               </div>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full sm:w-auto">
                 <Eye className="w-4 h-4 mr-2" />
                 View All
               </Button>

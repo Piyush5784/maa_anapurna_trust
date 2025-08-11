@@ -249,56 +249,70 @@ export default function UserManagementTable() {
                 className="pl-10"
               />
             </div>
-            <div className="flex gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">
-                    <Filter className="w-4 h-4 mr-2" />
-                    Role: {selectedRole}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setSelectedRole("All")}>
-                    All Roles
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSelectedRole("Admin")}>
-                    Admin
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSelectedRole("User")}>
-                    User
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSelectedRole("Pending")}>
-                    Pending
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">
-                    <Filter className="w-4 h-4 mr-2" />
-                    Status: {selectedStatus}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setSelectedStatus("All")}>
-                    All Status
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSelectedStatus("Active")}>
-                    Active
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setSelectedStatus("Pending")}
-                  >
-                    Pending
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <Button variant="outline">
-                <Download className="w-4 h-4 mr-2" />
+            <div className="flex flex-col gap-2 md:flex-row">
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                    >
+                      <Filter className="w-3 h-3 mr-2" />
+                      Role: {selectedRole}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => setSelectedRole("All")}>
+                      All Roles
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSelectedRole("Admin")}>
+                      Admin
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSelectedRole("User")}>
+                      User
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setSelectedRole("Pending")}
+                    >
+                      Pending
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                    >
+                      <Filter className="w-3 h-3 mr-2" />
+                      Status: {selectedStatus}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => setSelectedStatus("All")}>
+                      All Status
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setSelectedStatus("Active")}
+                    >
+                      Active
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setSelectedStatus("Pending")}
+                    >
+                      Pending
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              {/* <Button variant="outline" size="sm" className="w-full sm:w-auto">
+                <Download className="w-3 h-3 mr-2" />
                 Export
-              </Button>
+              </Button> */}
             </div>
           </div>
           {/* Users Table */}
@@ -342,11 +356,11 @@ export default function UserManagementTable() {
                               </span>
                             </div>
                           )}
-                          <div>
-                            <div className="font-medium text-gray-900">
+                          <div className="min-w-0 flex-1">
+                            <div className="font-medium text-gray-900 truncate">
                               {user.name || "No name"}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-sm text-gray-500 truncate">
                               {user.email || "No email"}
                             </div>
                           </div>
