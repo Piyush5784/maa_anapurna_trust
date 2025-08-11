@@ -1,0 +1,121 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ContactSubject {
+  GENERAL
+  SERVICES
+  VOLUNTEER
+  DONATION
+  PARTNERSHIP
+  SUPPORT
+  OTHER
+}
+
+enum StoryCategory {
+  EDUCATION
+  HEALTH
+  COMMUNITY
+  VOLUNTEER
+  SUCCESS
+  IMPACT
+  YOUTH
+  OTHER
+}
+
+enum StoryStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum StoryPriority {
+  LOW
+  MEDIUM
+  HIGH
+  FEATURED
+}
+
+
+model User {
+  id            String    @id @default(cuid()) @map("_id")
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Contact {
+  id          String        @id @default(cuid()) @map("_id")
+  firstName   String
+  lastName    String
+  email       String
+  phone       String?
+  subject     ContactSubject
+  message     String
+    
+  // Metadata
+  source      String?       // Where the contact came from (website, phone, etc.)
+  userAgent   String?       // Browser/device info
+  ipAddress   String?       // For spam prevention
+  
+  // Timestamps
+  createdAt   DateTime      @default(now())
+}
+
+model Story {
+  id          String        @id @default(cuid()) @map("_id")
+  title       String
+  excerpt     String
+  content     String
+  content2    String
+  slug        String        @unique
+  
+  // Media
+  coverImage  String?       // Cloudinary URL
+  images      String[]      // Array of additional image URLs
+  
+  // Categorization
+  category    StoryCategory
+  tags        String[]      // Array of tags
+  
+  // Publication
+  status      StoryStatus   @default(DRAFT)
+ featured    Boolean       @default(false)
+  
+  // Author information
+  authorName  String?
+  authorRole  String?
+  authorImage String?       // Cloudinary URL
+  
+  // SEO and metadata
+  metaTitle       String?
+  metaDescription String?
+  readTime        Int?          // Estimated read time in minutes
+  
+  // Social engagement
+  likes       Int           @default(0)
+  views       Int           @default(0)
+  shares      Int           @default(0)
+  
+  // Publishing
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
