@@ -1,6 +1,7 @@
 "use server";
 
 import Razorpay from "razorpay";
+import { createLog } from "./logs";
 
 // Initialize Razorpay instance
 const razorpay = new Razorpay({
@@ -29,29 +30,38 @@ export async function fetchRazorpayPayments(
       (Date.now() - 30 * 24 * 60 * 60 * 1000) / 1000
     ); // 30 days ago
 
-    console.log("[RAZORPAY] Fetching payments with options:", {
-      count,
-      skip,
-      from: from || defaultFrom,
-      to: to || defaultTo,
-      fromDate: new Date((from || defaultFrom) * 1000).toISOString(),
-      toDate: new Date((to || defaultTo) * 1000).toISOString(),
-    });
+    const finalFrom = from || defaultFrom;
+    const finalTo = to || defaultTo;
+
+    // Validate parameters
+    if (count < 1 || count > 1000) {
+      return {
+        success: false,
+        error: "Count parameter must be between 1 and 1000",
+      };
+    }
+
+    if (skip < 0) {
+      return {
+        success: false,
+        error: "Skip parameter must be non-negative",
+      };
+    }
 
     // Fetch payments from Razorpay with date filtering to get latest payments
     const payments = await razorpay.payments.all({
       count,
       skip,
-      from: from || defaultFrom,
-      to: to || defaultTo,
+      from: finalFrom,
+      to: finalTo,
     });
 
     // Fetch orders for additional context (also with date filtering)
     const orders = await razorpay.orders.all({
       count,
       skip,
-      from: from || defaultFrom,
-      to: to || defaultTo,
+      from: finalFrom,
+      to: finalTo,
     });
 
     // Transform the data for easier consumption
@@ -113,30 +123,52 @@ export async function fetchRazorpayPayments(
       return acc;
     }, {} as Record<string, number>);
 
+    const summaryData = {
+      totalAmount,
+      totalFees,
+      totalTransactions: transformedPayments.length,
+      successfulTransactions: transformedPayments.filter(
+        (p) => p.status === "captured"
+      ).length,
+      failedTransactions: transformedPayments.filter(
+        (p) => p.status === "failed"
+      ).length,
+      pendingTransactions: transformedPayments.filter(
+        (p) => p.status === "authorized"
+      ).length,
+      paymentsByStatus,
+      paymentsByMethod,
+    };
+
     return {
       success: true,
       data: {
         payments: transformedPayments,
         orders: transformedOrders,
-        summary: {
-          totalAmount,
-          totalFees,
-          totalTransactions: transformedPayments.length,
-          successfulTransactions: transformedPayments.filter(
-            (p) => p.status === "captured"
-          ).length,
-          failedTransactions: transformedPayments.filter(
-            (p) => p.status === "failed"
-          ).length,
-          pendingTransactions: transformedPayments.filter(
-            (p) => p.status === "authorized"
-          ).length,
-          paymentsByStatus,
-          paymentsByMethod,
-        },
+        summary: summaryData,
       },
     };
   } catch (error) {
+    const { count = 100, skip = 0, from, to } = options;
+    const defaultTo = Math.floor(Date.now() / 1000);
+    const defaultFrom = Math.floor(
+      (Date.now() - 30 * 24 * 60 * 60 * 1000) / 1000
+    );
+
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch Razorpay payments",
+      source: "razorpay",
+      metadata: JSON.stringify({
+        count,
+        skip,
+        from: from || defaultFrom,
+        to: to || defaultTo,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "fetchRazorpayPayments",
+      }),
+    });
     console.error("Error fetching Razorpay payments:", error);
     return {
       success: false,
@@ -150,60 +182,116 @@ export async function fetchLatestRazorpayPayments(
   days: number = 7,
   count: number = 50
 ) {
-  // Get payments from the last X days (default 7 days)
-  const to = Math.floor(Date.now() / 1000); // Current timestamp
-  const from = Math.floor((Date.now() - days * 24 * 60 * 60 * 1000) / 1000); // X days ago
+  try {
+    // Validate parameters
+    if (days < 1 || days > 365) {
+      return {
+        success: false,
+        error: "Days parameter must be between 1 and 365",
+      };
+    }
 
-  console.log("[RAZORPAY] fetchLatestRazorpayPayments called with:", {
-    days,
-    count,
-    from,
-    to,
-    fromDate: new Date(from * 1000).toISOString(),
-    toDate: new Date(to * 1000).toISOString(),
-  });
+    if (count < 1 || count > 1000) {
+      return {
+        success: false,
+        error: "Count parameter must be between 1 and 1000",
+      };
+    }
 
-  return fetchRazorpayPayments({
-    count,
-    skip: 0,
-    from,
-    to,
-  });
+    // Get payments from the last X days (default 7 days)
+    const to = Math.floor(Date.now() / 1000); // Current timestamp
+    const from = Math.floor((Date.now() - days * 24 * 60 * 60 * 1000) / 1000); // X days ago
+
+    const result = await fetchRazorpayPayments({
+      count,
+      skip: 0,
+      from,
+      to,
+    });
+
+    return result;
+  } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Latest Razorpay payments fetch failed with exception",
+      source: "razorpay",
+      metadata: JSON.stringify({
+        days,
+        count,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "fetchLatestRazorpayPayments",
+      }),
+    });
+
+    return {
+      success: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch latest payments",
+    };
+  }
 }
 
 export async function fetchRazorpayPaymentDetails(paymentId: string) {
   try {
+    // Validate payment ID
+    if (
+      !paymentId ||
+      typeof paymentId !== "string" ||
+      paymentId.trim().length === 0
+    ) {
+      return {
+        success: false,
+        error: "Valid payment ID is required",
+      };
+    }
+
     // Since this function is called from a server component in the /Manage route,
     // the middleware has already validated the user is an admin
 
     const payment = await razorpay.payments.fetch(paymentId);
 
+    const paymentDetails = {
+      id: payment.id,
+      orderId: payment.order_id,
+      amount: Number(payment.amount) / 100,
+      currency: payment.currency,
+      status: payment.status,
+      method: payment.method,
+      captured: payment.captured,
+      email: payment.email,
+      contact: payment.contact,
+      description: payment.description,
+      fee: Number(payment.fee || 0) / 100,
+      tax: Number(payment.tax || 0) / 100,
+      createdAt: new Date(Number(payment.created_at) * 1000),
+      notes: payment.notes || {},
+      errorCode: payment.error_code,
+      errorDescription: payment.error_description,
+      bank: payment.bank,
+      wallet: payment.wallet,
+      cardId: payment.card_id,
+      acquirerData: payment.acquirer_data || {},
+    };
+
     return {
       success: true,
-      data: {
-        id: payment.id,
-        orderId: payment.order_id,
-        amount: Number(payment.amount) / 100,
-        currency: payment.currency,
-        status: payment.status,
-        method: payment.method,
-        captured: payment.captured,
-        email: payment.email,
-        contact: payment.contact,
-        description: payment.description,
-        fee: Number(payment.fee || 0) / 100,
-        tax: Number(payment.tax || 0) / 100,
-        createdAt: new Date(Number(payment.created_at) * 1000),
-        notes: payment.notes || {},
-        errorCode: payment.error_code,
-        errorDescription: payment.error_description,
-        bank: payment.bank,
-        wallet: payment.wallet,
-        cardId: payment.card_id,
-        acquirerData: payment.acquirer_data || {},
-      },
+      data: paymentDetails,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch Razorpay payment details",
+      source: "razorpay",
+      metadata: JSON.stringify({
+        paymentId,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "fetchRazorpayPaymentDetails",
+      }),
+    });
     console.error("Error fetching payment details:", error);
     return {
       success: false,
@@ -214,3 +302,142 @@ export async function fetchRazorpayPaymentDetails(paymentId: string) {
     };
   }
 }
+
+export async function getRazorpayHealth() {
+  try {
+    // Test API connectivity by fetching a small amount of recent data
+    const testResult = await fetchLatestRazorpayPayments(1, 1);
+
+    if (!testResult.success) {
+      await createLog({
+        level: "ERROR",
+        message: "Razorpay health check failed - API connectivity issue",
+        source: "razorpay",
+        metadata: JSON.stringify({
+          error: testResult.error,
+          action: "getRazorpayHealth",
+        }),
+      });
+
+      return {
+        success: false,
+        status: "unhealthy",
+        error: testResult.error,
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    const health = {
+      status: "healthy",
+      apiConnectivity: "operational",
+      keyId: process.env.RAZORPAY_KEY_ID ? "configured" : "missing",
+      keySecret: process.env.RAZORPAY_KEY_SECRET ? "configured" : "missing",
+      lastTestPayment: testResult.error || null,
+      timestamp: new Date().toISOString(),
+    };
+
+    return {
+      success: true,
+      data: health,
+    };
+  } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Razorpay health check failed with exception",
+      source: "razorpay",
+      metadata: JSON.stringify({
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "getRazorpayHealth",
+      }),
+    });
+
+    return {
+      success: false,
+      status: "unhealthy",
+      error: error instanceof Error ? error.message : "Health check failed",
+      timestamp: new Date().toISOString(),
+    };
+  }
+}
+
+// export async function verifyRazorpayWebhook(
+//   signature: string,
+//   body: string,
+//   secret: string
+// ) {
+//   try {
+
+//     if (!signature || !body || !secret) {
+//       await createLog({
+//         level: "WARN",
+//         message: "Invalid parameters for webhook verification",
+//         source: "razorpay",
+//         metadata: JSON.stringify({
+//           hasSignature: !!signature,
+//           hasBody: !!body,
+//           hasSecret: !!secret,
+//         }),
+//       });
+//       return {
+//         success: false,
+//         error: "Missing required parameters for webhook verification",
+//       };
+//     }
+
+//     // Use Razorpay's built-in verification
+//     const crypto = require("crypto");
+//     const expectedSignature = crypto
+//       .createHmac("sha256", secret)
+//       .update(body)
+//       .digest("hex");
+
+//     const isValid = signature === expectedSignature;
+
+//     if (isValid) {
+//       await createLog({
+//         level: "SUCCESS",
+//         message: "Razorpay webhook verification successful",
+//         source: "razorpay",
+//         metadata: JSON.stringify({
+//           signatureMatch: true,
+//           action: "verifyRazorpayWebhook",
+//         }),
+//       });
+//     } else {
+//       await createLog({
+//         level: "WARN",
+//         message: "Razorpay webhook verification failed - signature mismatch",
+//         source: "razorpay",
+//         metadata: JSON.stringify({
+//           signatureMatch: false,
+//           providedSignature: signature.substring(0, 20) + "...",
+//           expectedSignature: expectedSignature.substring(0, 20) + "...",
+//           action: "verifyRazorpayWebhook",
+//         }),
+//       });
+//     }
+
+//     return {
+//       success: true,
+//       verified: isValid,
+//     };
+//   } catch (error) {
+//     await createLog({
+//       level: "ERROR",
+//       message: "Razorpay webhook verification failed with exception",
+//       source: "razorpay",
+//       metadata: JSON.stringify({
+//         error: error instanceof Error ? error.message : String(error),
+//         stack: error instanceof Error ? error.stack : undefined,
+//         action: "verifyRazorpayWebhook",
+//       }),
+//     });
+
+//     return {
+//       success: false,
+//       error:
+//         error instanceof Error ? error.message : "Webhook verification failed",
+//     };
+//   }
+// }

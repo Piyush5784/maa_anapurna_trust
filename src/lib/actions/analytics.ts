@@ -3,6 +3,7 @@
 import { prisma } from "@/db/prisma";
 import { headers } from "next/headers";
 import { getToken } from "next-auth/jwt";
+import { createLog } from "./logs";
 
 interface TrackPageViewData {
   page: string;
@@ -52,7 +53,18 @@ export async function trackPageView(data: TrackPageViewData) {
 
     return { success: true };
   } catch (error) {
-    console.error("Analytics tracking error:", error);
+    await createLog({
+      level: "ERROR",
+      message: "Failed to track page view",
+      source: "analytics",
+      metadata: JSON.stringify({
+        page: data.page,
+        sessionId: data.sessionId,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
+    console.error("Analytics trackPageView error:", error);
     return { success: false, error: "Failed to track page view" };
   }
 }
@@ -232,6 +244,16 @@ export async function getAnalyticsStats(days: number = 30) {
       },
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch analytics stats",
+      source: "analytics",
+      metadata: JSON.stringify({
+        days,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
     console.error("Analytics stats error:", error);
     return { success: false, error: "Failed to fetch analytics" };
   }
@@ -239,11 +261,103 @@ export async function getAnalyticsStats(days: number = 30) {
 
 export async function getProtectedAnalytics(days: number = 30) {
   try {
-    // This would be called from a server component that already validates auth
-    // Or we can validate here if needed
-    return await getAnalyticsStats(days);
+    const result = await getAnalyticsStats(days);
+
+    return result;
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch protected analytics",
+      source: "analytics",
+      metadata: JSON.stringify({
+        days,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
     console.error("Protected analytics error:", error);
     return { success: false, error: "Failed to fetch protected analytics" };
+  }
+}
+
+export async function cleanupOldAnalyticsData(daysToKeep: number = 365) {
+  try {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
+
+    // Delete old page visits
+    const deletedVisits = await prisma.pageVisit.deleteMany({
+      where: {
+        visitedAt: {
+          lt: cutoffDate,
+        },
+      },
+    });
+
+    return {
+      success: true,
+      deletedVisits: deletedVisits.count,
+    };
+  } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to cleanup old analytics data",
+      source: "analytics",
+      metadata: JSON.stringify({
+        daysToKeep,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
+    console.error("Analytics cleanup error:", error);
+    return { success: false, error: "Failed to cleanup analytics data" };
+  }
+}
+
+export async function getAnalyticsHealth() {
+  try {
+    // Check database connectivity and get basic stats
+    const [pageStatsCount, pageVisitsCount, recentVisits] = await Promise.all([
+      prisma.pageStats.count(),
+      prisma.pageVisit.count(),
+      prisma.pageVisit.count({
+        where: {
+          visitedAt: {
+            gte: new Date(Date.now() - 24 * 60 * 60 * 1000), // Last 24 hours
+          },
+        },
+      }),
+    ]);
+
+    const health = {
+      totalPageStats: pageStatsCount,
+      totalPageVisits: pageVisitsCount,
+      recentVisits24h: recentVisits,
+      status: "healthy",
+      timestamp: new Date().toISOString(),
+    };
+
+    return {
+      success: true,
+      data: health,
+    };
+  } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Analytics health check failed",
+      source: "analytics",
+      metadata: JSON.stringify({
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
+    return {
+      success: false,
+      error: "Analytics health check failed",
+      data: {
+        status: "unhealthy",
+        timestamp: new Date().toISOString(),
+      },
+    };
   }
 }

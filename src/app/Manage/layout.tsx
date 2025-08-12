@@ -17,6 +17,7 @@ import {
   Calendar,
   DollarSign,
   Paperclip,
+  LogsIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LogoutButton from "@/components/custom/LogoutButton";
@@ -66,6 +67,11 @@ const sidebarItems = [
     title: "Pages",
     href: "/Manage/pages",
     icon: Paperclip,
+  },
+  {
+    title: "Logs",
+    href: "/Manage/logs",
+    icon: LogsIcon,
   },
 ];
 

@@ -4,6 +4,7 @@ import { prisma } from "@/db/prisma";
 import { ContactFormSchema } from "@/form-schemas/contact-us-form";
 import { Contact } from "@/generated/prisma";
 import { success, z } from "zod";
+import { createLog } from "./logs";
 
 // Define Zod schema for contact form validation
 
@@ -51,8 +52,19 @@ export async function submitContactForm(
       };
     }
 
-    return await saveContactData(result.data);
+    const saveResult = await saveContactData(result.data);
+
+    return saveResult;
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Contact form submission failed with exception",
+      source: "contact",
+      metadata: JSON.stringify({
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
     console.error("Contact form submission error:", error);
 
     return {
@@ -88,8 +100,21 @@ export async function submitContactData(
       };
     }
 
-    return await saveContactData(result.data);
+    const saveResult = await saveContactData(result.data);
+
+    return saveResult;
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Typed contact data submission failed with exception",
+      source: "contact",
+      metadata: JSON.stringify({
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        email: data.email,
+        subject: data.subject,
+      }),
+    });
     console.error("Contact form submission error:", error);
 
     return {
@@ -104,7 +129,7 @@ async function saveContactData(
   validatedData: ContactFormData
 ): Promise<ActionResult> {
   try {
-    await prisma.contact.create({
+    const savedContact = await prisma.contact.create({
       data: {
         firstName: validatedData.firstName,
         lastName: validatedData.lastName,
@@ -122,6 +147,17 @@ async function saveContactData(
         "Thank you for your message! We'll get back to you within 24 hours.",
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to save contact data to database",
+      source: "contact",
+      metadata: JSON.stringify({
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        email: validatedData.email,
+        subject: validatedData.subject,
+      }),
+    });
     console.error("Database save error:", error);
 
     return {
@@ -145,6 +181,15 @@ export async function getAllMessage(): Promise<ActionResult<Contact[]>> {
       data: messages,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch contact messages",
+      source: "contact",
+      metadata: JSON.stringify({
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
     console.error("Failed to fetch messages:", error);
     return {
       success: false,
@@ -197,17 +242,28 @@ export async function getContactStats(): Promise<
       count: item._count.id,
     }));
 
+    const statsData = {
+      totalMessages,
+      thisWeek: thisWeekMessages,
+      today: todayMessages,
+      messagesBySubject: formattedMessagesBySubject,
+    };
+
     return {
       success: true,
       message: "Stats successfully fetched",
-      data: {
-        totalMessages,
-        thisWeek: thisWeekMessages,
-        today: todayMessages,
-        messagesBySubject: formattedMessagesBySubject,
-      },
+      data: statsData,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch contact statistics",
+      source: "contact",
+      metadata: JSON.stringify({
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      }),
+    });
     console.error("Failed to fetch contact stats:", error);
     return {
       success: false,

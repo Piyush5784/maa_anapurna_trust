@@ -133,9 +133,7 @@ model PageStats {
 
 model PageVisit {
   id        String   @id @default(cuid()) @map("_id")
-  page      String   // Page path
-  
-  // Session and user info
+  page      String 
   sessionId String   // Session identifier
   userId    String?  // If user is logged in
   
@@ -144,16 +142,34 @@ model PageVisit {
   ipAddress String?
   referer   String?  // Where they came from
   
-  // Location (optional)
   country   String?
   city      String?
-  
-  // Timing
   visitedAt DateTime @default(now())
-  duration  Int?     // Time spent on page in seconds
-  
+  duration  Int?   
   @@index([page])
   @@index([visitedAt])
   @@index([sessionId])
 }
 
+model Logs {
+  id        String   @id @default(cuid()) @map("_id")
+  level     Logtype 
+  message   String
+  metadata  String?  
+  source    String?  
+  userId    String?  
+  sessionId String?  
+  createdAt DateTime @default(now())
+  
+  @@index([level])
+  @@index([createdAt])
+  @@index([source])
+}
+
+enum  Logtype {
+  DEBUG
+  WARN
+  INFO
+  SUCCESS
+  ERROR
+}

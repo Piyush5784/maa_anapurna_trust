@@ -47,7 +47,27 @@ export default async function FinancePage() {
 
   // Fallback data in case of error
   const defaultData = {
-    payments: [],
+    payments: [] as Array<{
+      id: any;
+      orderId: any;
+      amount: number;
+      currency: any;
+      status: string;
+      method: string;
+      captured: any;
+      email: any;
+      contact: any;
+      description: any;
+      fee: number;
+      tax: number;
+      createdAt: Date;
+      notes: any;
+      errorCode: any;
+      errorDescription: any;
+      bank: any;
+      wallet: any;
+      cardId: any;
+    }>,
     summary: {
       totalAmount: 0,
       totalFees: 0,
@@ -55,12 +75,15 @@ export default async function FinancePage() {
       successfulTransactions: 0,
       failedTransactions: 0,
       pendingTransactions: 0,
-      paymentsByStatus: {},
-      paymentsByMethod: {},
+      paymentsByStatus: {} as Record<string, number>,
+      paymentsByMethod: {} as Record<string, number>,
     },
   };
 
-  const data = razorpayResult.success ? razorpayResult.data! : defaultData;
+  const data =
+    razorpayResult.success && (razorpayResult as any).data
+      ? (razorpayResult as any).data
+      : defaultData;
 
   // Format revenue data from Razorpay
   const revenueData = [
@@ -266,7 +289,7 @@ export default async function FinancePage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data.payments.slice(0, 10).map((payment) => (
+                  {data.payments.slice(0, 10).map((payment: any) => (
                     <TableRow key={payment.id}>
                       <TableCell className="font-mono text-xs">
                         {payment.id.slice(-10)}
@@ -323,12 +346,12 @@ export default async function FinancePage() {
                       <div>
                         <p className="font-medium">{getMethodName(method)}</p>
                         <p className="text-sm text-muted-foreground">
-                          {count} transactions
+                          {count as number} transactions
                         </p>
                       </div>
                       <Badge variant="outline">
                         {(
-                          (count / data.summary.totalTransactions) *
+                          ((count as number) / data.summary.totalTransactions) *
                           100
                         ).toFixed(1)}
                         %

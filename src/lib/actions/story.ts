@@ -6,6 +6,7 @@ import { uploadImage, deleteImage, getPublicIdFromUrl } from "@/lib/cloudinary";
 import slugify from "slugify";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { createLog } from "./logs";
 
 export interface ActionResult<T = any> {
   success: boolean;
@@ -73,6 +74,17 @@ export async function createStoryFromForm(
       data: story,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Story creation from form data failed with exception",
+      source: "story",
+      metadata: JSON.stringify({
+        title: data.title?.substring(0, 100),
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "createStoryFromForm",
+      }),
+    });
     console.error("Story creation error:", error);
     return {
       success: false,
@@ -173,7 +185,6 @@ export async function createStory(formData: FormData): Promise<ActionResult> {
         views: 0,
       },
     });
-
     revalidatePath("/Stories");
     revalidatePath("/Manage/stories");
 
@@ -183,6 +194,17 @@ export async function createStory(formData: FormData): Promise<ActionResult> {
       data: story,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Story creation with file upload failed with exception",
+      source: "story",
+      metadata: JSON.stringify({
+        title: formData.get("title")?.toString().substring(0, 100),
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "createStory",
+      }),
+    });
     console.error("Story creation error:", error);
     return {
       success: false,
@@ -326,6 +348,18 @@ export async function updateStory(
       data: updatedStory,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Story update failed with exception",
+      source: "story",
+      metadata: JSON.stringify({
+        storyId,
+        title: formData.get("title")?.toString().substring(0, 100),
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "updateStory",
+      }),
+    });
     console.error("Story update error:", error);
     return {
       success: false,
@@ -372,6 +406,17 @@ export async function deleteStory(storyId: string): Promise<ActionResult> {
       message: "Story deleted successfully!",
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Story deletion failed with exception",
+      source: "story",
+      metadata: JSON.stringify({
+        storyId,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "deleteStory",
+      }),
+    });
     console.error("Story deletion error:", error);
     return {
       success: false,
@@ -399,6 +444,18 @@ export async function getAllStories(
       data: stories,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch all stories",
+      source: "story",
+      metadata: JSON.stringify({
+        status,
+        limit,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "getAllStories",
+      }),
+    });
     console.error("Error fetching stories:", error);
     return {
       success: false,
@@ -433,6 +490,17 @@ export async function getStoryBySlug(slug: string): Promise<ActionResult> {
       data: story,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch story by slug",
+      source: "story",
+      metadata: JSON.stringify({
+        slug,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "getStoryBySlug",
+      }),
+    });
     console.error("Error fetching story:", error);
     return {
       success: false,
@@ -467,6 +535,17 @@ export async function getStoryById(id: string): Promise<ActionResult> {
       data: story,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Failed to fetch story by ID",
+      source: "story",
+      metadata: JSON.stringify({
+        storyId: id,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "getStoryById",
+      }),
+    });
     console.error("Error fetching story:", error);
     return {
       success: false,
@@ -500,7 +579,6 @@ export async function toggleStoryStatus(
         publishedAt: newStatus === "PUBLISHED" ? new Date() : null,
       },
     });
-
     revalidatePath("/Stories");
     revalidatePath(`/Stories/${story.slug}`);
     revalidatePath("/Manage/stories");
@@ -511,6 +589,17 @@ export async function toggleStoryStatus(
       data: updatedStory,
     };
   } catch (error) {
+    await createLog({
+      level: "ERROR",
+      message: "Story status toggle failed with exception",
+      source: "story",
+      metadata: JSON.stringify({
+        storyId,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        action: "toggleStoryStatus",
+      }),
+    });
     console.error("Error toggling story status:", error);
     return {
       success: false,
