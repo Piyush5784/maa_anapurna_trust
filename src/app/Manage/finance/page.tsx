@@ -27,8 +27,17 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { fetchLatestRazorpayPayments } from "@/lib/actions/razorpay";
+import { RefreshButton } from "@/components/custom/RefreshButton";
+
+// Force dynamic rendering to ensure fresh data
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function FinancePage() {
+  // Get current timestamp for cache debugging
+  const fetchTime = new Date().toISOString();
+  console.log("[FINANCE PAGE] Rendering at:", fetchTime);
+
   // Fetch latest Razorpay data (last 7 days, 50 transactions)
   const razorpayResult = await fetchLatestRazorpayPayments(7, 50);
 
@@ -161,8 +170,12 @@ export default async function FinancePage() {
           <p className="text-muted-foreground">
             Latest payments and financial metrics from Razorpay (Last 7 days)
           </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Last updated: {new Date(fetchTime).toLocaleString()}
+          </p>
         </div>
         <div className="flex gap-2">
+          <RefreshButton showBothOptions={true} />
           <Button variant="outline">
             <Calendar className="w-4 h-4 mr-2" />
             This Month

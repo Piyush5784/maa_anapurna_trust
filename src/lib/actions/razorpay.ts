@@ -29,6 +29,15 @@ export async function fetchRazorpayPayments(
       (Date.now() - 30 * 24 * 60 * 60 * 1000) / 1000
     ); // 30 days ago
 
+    console.log("[RAZORPAY] Fetching payments with options:", {
+      count,
+      skip,
+      from: from || defaultFrom,
+      to: to || defaultTo,
+      fromDate: new Date((from || defaultFrom) * 1000).toISOString(),
+      toDate: new Date((to || defaultTo) * 1000).toISOString(),
+    });
+
     // Fetch payments from Razorpay with date filtering to get latest payments
     const payments = await razorpay.payments.all({
       count,
@@ -144,6 +153,15 @@ export async function fetchLatestRazorpayPayments(
   // Get payments from the last X days (default 7 days)
   const to = Math.floor(Date.now() / 1000); // Current timestamp
   const from = Math.floor((Date.now() - days * 24 * 60 * 60 * 1000) / 1000); // X days ago
+
+  console.log("[RAZORPAY] fetchLatestRazorpayPayments called with:", {
+    days,
+    count,
+    from,
+    to,
+    fromDate: new Date(from * 1000).toISOString(),
+    toDate: new Date(to * 1000).toISOString(),
+  });
 
   return fetchRazorpayPayments({
     count,
