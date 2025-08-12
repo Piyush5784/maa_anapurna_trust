@@ -139,11 +139,10 @@ async function StoriesPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <p className="text-sm font-medium text-gray-900">
-                      {stat.metric}
-                    </p>
-                    <p className="text-sm text-gray-600">{stat.period}</p>
+                    <div className={`text-2xl font-bold ${stat.color}`}>
+                      {stat.value}
+                    </div>
+                    <p className="text-sm text-gray-600">{stat.metric}</p>
                   </div>
                   <IconComponent className={`w-8 h-8 ${stat.color}`} />
                 </div>
@@ -218,7 +217,9 @@ async function StoriesPage() {
                           )}
                         </div>
                         <p className="text-sm text-gray-600 line-clamp-2">
-                          {story.excerpt}
+                          {story?.excerpt?.length > 25
+                            ? story?.excerpt?.slice(0, 25) + "..."
+                            : story.excerpt}
                         </p>
                         {story.coverImage && (
                           <img

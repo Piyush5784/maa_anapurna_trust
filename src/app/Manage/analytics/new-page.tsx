@@ -139,7 +139,7 @@ export default async function AnalyticsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.pageStats.slice(0, 5).map((page) => (
+                {data.pageStats.slice(0, 10).map((page) => (
                   <TableRow key={page.id}>
                     <TableCell>
                       <div className="font-medium">
@@ -177,7 +177,7 @@ export default async function AnalyticsPage() {
               </TableHeader>
               <TableBody>
                 {Array.isArray(data.pageViewsByPage) &&
-                  data.pageViewsByPage.slice(0, 5).map((page: any, index) => (
+                  data.pageViewsByPage.slice(0, 10).map((page: any, index) => (
                     <TableRow key={index}>
                       <TableCell>
                         <div className="font-medium">{page.page}</div>
@@ -201,7 +201,7 @@ export default async function AnalyticsPage() {
         <CardHeader>
           <CardTitle>Recent Page Views</CardTitle>
           <CardDescription>
-            Latest visitor activity (last 5 visits)
+            Latest visitor activity (last 50 visits)
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -215,7 +215,7 @@ export default async function AnalyticsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.recentVisits.slice(0, 5).map((visit, index) => (
+              {data.recentVisits.slice(0, 20).map((visit, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     <div className="font-medium">{visit.page}</div>
@@ -243,6 +243,29 @@ export default async function AnalyticsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Daily Views Chart Data */}
+      {Array.isArray(data.dailyViews) && data.dailyViews.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Daily Views Trend</CardTitle>
+            <CardDescription>Page views over the last 30 days</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {data.dailyViews.map((day: any, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <span className="text-sm">{day.date}</span>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">{day.views} views</Badge>
+                    <Badge variant="secondary">{day.uniqueViews} unique</Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

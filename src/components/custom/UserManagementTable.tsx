@@ -41,8 +41,10 @@ import {
   TableCaption,
   TableFooter,
 } from "@/components/ui/table";
-import { getUsers, getUserStats, UserData } from "@/lib/actions/users";
+import { getUsers, getUserStats } from "@/lib/actions/users";
 import UserActions from "@/components/custom/UserActions";
+import { User } from "@/generated/prisma";
+import { ROLE_USER } from "../static/SD";
 
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("en-US", {
@@ -52,12 +54,12 @@ function formatDate(date: Date): string {
   }).format(new Date(date));
 }
 
-function getUserStatus(user: UserData): string {
+function getUserStatus(user: User): string {
   return user.emailVerified ? "Active" : "Pending";
 }
 
-function getUserRole(user: UserData): string {
-  return user.emailVerified ? "User" : "Pending";
+function getUserRole(user: User): string {
+  return user.role;
 }
 
 interface UserStats {
@@ -68,7 +70,7 @@ interface UserStats {
 }
 
 export default function UserManagementTable() {
-  const [users, setUsers] = useState<UserData[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<UserStats>({
     totalUsers: 0,
     activeUsers: 0,

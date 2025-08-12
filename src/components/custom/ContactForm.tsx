@@ -42,8 +42,8 @@ import { ContactFormSchema } from "@/form-schemas/contact-us-form";
 export function ContactForm() {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<ActionResult | null>({
-    success: true,
-    message: "Thank you we will get back to you soon",
+    success: false,
+    message: "",
   });
 
   const form = useForm<z.infer<typeof ContactFormSchema>>({
@@ -100,7 +100,7 @@ export function ContactForm() {
         </CardDescription>
       </CardHeader>
       <CardContent className="w-full">
-        {result && (
+        {result && result.message && (
           <Alert
             className={`mb-6 ${
               result.success

@@ -119,3 +119,41 @@ model Story {
   updatedAt   DateTime      @updatedAt
 }
 
+// Analytics Models - Simplified to 2 tables
+model PageStats {
+  id         String   @id @default(cuid()) @map("_id")
+  page       String   @unique // Page path (e.g., "/", "/About", "/Stories/123")
+  title      String?  // Page title
+  totalViews Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@index([totalViews])
+}
+
+model PageVisit {
+  id        String   @id @default(cuid()) @map("_id")
+  page      String   // Page path
+  
+  // Session and user info
+  sessionId String   // Session identifier
+  userId    String?  // If user is logged in
+  
+  // Request info
+  userAgent String?
+  ipAddress String?
+  referer   String?  // Where they came from
+  
+  // Location (optional)
+  country   String?
+  city      String?
+  
+  // Timing
+  visitedAt DateTime @default(now())
+  duration  Int?     // Time spent on page in seconds
+  
+  @@index([page])
+  @@index([visitedAt])
+  @@index([sessionId])
+}
+

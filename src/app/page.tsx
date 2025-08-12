@@ -7,6 +7,7 @@ import Providing from "@/components/custom/Providing";
 import Steps from "@/components/custom/Steps";
 import Testimonials from "@/components/custom/Testimonials";
 import { Topbar } from "@/components/custom/topbar";
+import { Button } from "@/components/ui/button";
 import { Play, Video } from "lucide-react";
 import Image from "next/image";
 import { GoArrowUp } from "react-icons/go";
@@ -30,13 +31,19 @@ export default function Home() {
         </p>
 
         <div className="flex items-center  gap-2 justify-center pt-10">
-          <button className="bg-primary text-black hover:scale-105 duration-100 cursor-pointer flex gap-2 items-center justify-center px-10 py-4 rounded-full">
+          <Button
+            size={"lg"}
+            className="bg-primary text-black hover:scale-105 duration-100 cursor-pointer flex gap-2 items-center justify-center  rounded-full"
+          >
             <Play size={16} /> Watch Video
-          </button>
-          <button className="bg-black flex items-center justify-center gap-2 cursor-pointer hover:scale-105 duration-100  text-white md:px-10 px-6 py-4  rounded-full">
+          </Button>
+          <Button
+            size={"lg"}
+            className="bg-black hover:bg-black flex items-center justify-center gap-2 cursor-pointer hover:scale-105 duration-100  text-white md:px-10 px-6 py-4  rounded-full"
+          >
             Donate now{" "}
             <GoArrowUp size={20} className="sm:w-6 sm:h-6 rotate-45" />
-          </button>
+          </Button>
         </div>
       </div>
 

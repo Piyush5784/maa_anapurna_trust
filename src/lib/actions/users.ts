@@ -2,18 +2,10 @@
 
 import { prisma } from "@/db/prisma";
 import { revalidatePath } from "next/cache";
+import { ROLE_USER, ROLE_ADMIN } from "@/components/static/SD";
+import { User } from "@/generated/prisma";
 
-export interface UserData {
-  id: string;
-  name: string | null;
-  email: string | null;
-  emailVerified: Date | null;
-  image: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export async function getUsers(): Promise<UserData[]> {
+export async function getUsers(): Promise<User[]> {
   try {
     const users = await prisma.user.findMany({
       orderBy: {
@@ -21,7 +13,7 @@ export async function getUsers(): Promise<UserData[]> {
       },
     });
 
-    return users.map((user: any) => ({
+    return users.map((user: User) => ({
       ...user,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,

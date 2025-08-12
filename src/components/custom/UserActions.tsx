@@ -3,12 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, MoreHorizontal } from "lucide-react";
 
-import {
-  getUsers,
-  getUserStats,
-  UserData,
-  deleteUser,
-} from "@/lib/actions/users";
+import { getUsers, getUserStats, deleteUser } from "@/lib/actions/users";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

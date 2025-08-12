@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import SessionP from "@/components/Providers/Session";
 import { Topbar } from "@/components/custom/topbar";
 import { Toaster } from "sonner";
+import AnalyticsTracker from "@/components/custom/AnalyticsTracker";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -41,6 +42,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <AnalyticsTracker />
             <Toaster richColors />
             {children}
           </ThemeProvider>

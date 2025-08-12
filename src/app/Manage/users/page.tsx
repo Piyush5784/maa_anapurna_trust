@@ -24,8 +24,9 @@ import {
   MoreHorizontal,
   Filter,
 } from "lucide-react";
-import { getUsers, getUserStats, UserData } from "@/lib/actions/users";
+import { getUsers, getUserStats } from "@/lib/actions/users";
 import UserActions from "@/components/custom/UserActions";
+import { User } from "@/generated/prisma";
 
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("en-US", {
@@ -35,13 +36,11 @@ function formatDate(date: Date): string {
   }).format(new Date(date));
 }
 
-function getUserStatus(user: UserData): string {
+function getUserStatus(user: User): string {
   return user.emailVerified ? "Active" : "Pending";
 }
 
-function getUserRole(user: UserData): string {
-  // For now, we'll determine role based on email verified status
-  // You can enhance this logic based on your needs
+function getUserRole(user: User): string {
   return user.emailVerified ? "User" : "Pending";
 }
 
@@ -58,10 +57,6 @@ export default async function UsersPage() {
             Manage user accounts and permissions
           </p>
         </div>
-        {/* <Button className="bg-green-600 hover:bg-green-700">
-          <UserPlus className="w-4 h-4 mr-2" />
-          Add User
-        </Button> */}
       </div>
 
       {/* Stats */}

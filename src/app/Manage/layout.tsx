@@ -40,18 +40,18 @@ const sidebarItems = [
   {
     title: "Stories",
     href: "/Manage/stories",
-    icon: Calendar,
+    icon: FileText,
   },
   {
     title: "Messages",
     href: "/Manage/communication",
     icon: Mail,
   },
-  {
-    title: "Content",
-    href: "/Manage/content",
-    icon: FileText,
-  },
+  // {
+  //   title: "Content",
+  //   href: "/Manage/content",
+  //   icon: FileText,
+  // },
   {
     title: "Analytics",
     href: "/Manage/analytics",
