@@ -52,8 +52,16 @@ export const Topbar = () => {
             <div className="md:flex gap-4 hidden ">
               {" "}
               <LoginButton />
-              <Button className="hover:scale-105 cursor-pointer hover:bg-white hover:text-black border hover:border-black">
-                Donate
+              <Button
+                asChild
+                className="hover:scale-105 cursor-pointer hover:bg-white hover:text-black border hover:border-black"
+              >
+                <Link
+                  href={"https://pages.razorpay.com/pl_R4K9t3f0IqJQ49/view"}
+                >
+                  {" "}
+                  Donate
+                </Link>
               </Button>
             </div>
             <div className="md:hidden" onClick={() => setShowMenu((c) => !c)}>

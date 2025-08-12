@@ -10,6 +10,7 @@ import { Topbar } from "@/components/custom/topbar";
 import { Button } from "@/components/ui/button";
 import { Play, Video } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { GoArrowUp } from "react-icons/go";
 
 export default function Home() {
@@ -38,11 +39,13 @@ export default function Home() {
             <Play size={16} /> Watch Video
           </Button>
           <Button
+            asChild
             size={"lg"}
             className="bg-black hover:bg-black flex items-center justify-center gap-2 cursor-pointer hover:scale-105 duration-100  text-white md:px-10 px-6 py-4  rounded-full"
           >
-            Donate now{" "}
-            <GoArrowUp size={20} className="sm:w-6 sm:h-6 rotate-45" />
+            <Link href={"https://pages.razorpay.com/pl_R4K9t3f0IqJQ49/view"}>
+              Donate now{" "}
+            </Link>
           </Button>
         </div>
       </div>
