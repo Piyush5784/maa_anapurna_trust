@@ -66,7 +66,7 @@ export default function Footer() {
           © 2023 Copyright. Maa Annapurna Trust
         </span>
         <Link
-          href="https://pages.razorpay.com/pl_R4K9t3f0IqJQ49/view"
+          href="https://rzp.io/rzp/AzVOiOzY"
           className="ml-auto bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full flex items-center gap-2 w-max transition-colors"
         >
           Donate now <ArrowUpRight size={18} />

@@ -43,9 +43,7 @@ export default function Home() {
             size={"lg"}
             className="bg-black hover:bg-black flex items-center justify-center gap-2 cursor-pointer hover:scale-105 duration-100  text-white md:px-10 px-6 py-4  rounded-full"
           >
-            <Link href={"https://pages.razorpay.com/pl_R4K9t3f0IqJQ49/view"}>
-              Donate now{" "}
-            </Link>
+            <Link href={"https://rzp.io/rzp/AzVOiOzY"}>Donate now </Link>
           </Button>
         </div>
       </div>

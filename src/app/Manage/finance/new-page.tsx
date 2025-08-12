@@ -31,7 +31,7 @@ import { fetchRazorpayPayments } from "@/lib/actions/razorpay";
 export default async function FinancePage() {
   // Fetch real Razorpay data
   const razorpayResult = await fetchRazorpayPayments({ count: 50 });
-  
+
   // Check if there's an error
   const hasError = !razorpayResult.success;
   const errorMessage = hasError ? razorpayResult.error : null;
@@ -55,47 +55,82 @@ export default async function FinancePage() {
 
   // Format revenue data from Razorpay
   const revenueData = [
-    { 
-      metric: "Total Revenue", 
-      value: `₹${data.summary.totalAmount.toLocaleString()}`, 
-      change: `${data.summary.successfulTransactions} successful`, 
+    {
+      metric: "Total Revenue",
+      value: `₹${data.summary.totalAmount.toLocaleString()}`,
+      change: `${data.summary.successfulTransactions} successful`,
       trend: "up",
-      icon: IndianRupee
+      icon: IndianRupee,
     },
-    { 
-      metric: "Total Fees", 
-      value: `₹${data.summary.totalFees.toLocaleString()}`, 
-      change: `${data.summary.totalAmount > 0 ? ((data.summary.totalFees / data.summary.totalAmount) * 100).toFixed(2) : 0}% of revenue`, 
+    {
+      metric: "Total Fees",
+      value: `₹${data.summary.totalFees.toLocaleString()}`,
+      change: `${
+        data.summary.totalAmount > 0
+          ? ((data.summary.totalFees / data.summary.totalAmount) * 100).toFixed(
+              2
+            )
+          : 0
+      }% of revenue`,
       trend: "neutral",
-      icon: CreditCard
+      icon: CreditCard,
     },
     {
       metric: "Success Rate",
-      value: `${data.summary.totalTransactions > 0 ? ((data.summary.successfulTransactions / data.summary.totalTransactions) * 100).toFixed(1) : 0}%`,
+      value: `${
+        data.summary.totalTransactions > 0
+          ? (
+              (data.summary.successfulTransactions /
+                data.summary.totalTransactions) *
+              100
+            ).toFixed(1)
+          : 0
+      }%`,
       change: `${data.summary.failedTransactions} failed`,
-      trend: data.summary.successfulTransactions > data.summary.failedTransactions ? "up" : "down",
-      icon: TrendingUp
+      trend:
+        data.summary.successfulTransactions > data.summary.failedTransactions
+          ? "up"
+          : "down",
+      icon: TrendingUp,
     },
-    { 
-      metric: "Average Transaction", 
-      value: `₹${data.summary.successfulTransactions > 0 ? Math.round(data.summary.totalAmount / data.summary.successfulTransactions).toLocaleString() : 0}`, 
-      change: `From ${data.summary.totalTransactions} payments`, 
+    {
+      metric: "Average Transaction",
+      value: `₹${
+        data.summary.successfulTransactions > 0
+          ? Math.round(
+              data.summary.totalAmount / data.summary.successfulTransactions
+            ).toLocaleString()
+          : 0
+      }`,
+      change: `From ${data.summary.totalTransactions} payments`,
       trend: "up",
-      icon: DollarSign
+      icon: DollarSign,
     },
   ];
 
   // Get status badge color
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'captured':
-        return <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Success</Badge>;
-      case 'failed':
+      case "captured":
+        return (
+          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+            Success
+          </Badge>
+        );
+      case "failed":
         return <Badge variant="destructive">Failed</Badge>;
-      case 'authorized':
-        return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Pending</Badge>;
-      case 'refunded':
-        return <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Refunded</Badge>;
+      case "authorized":
+        return (
+          <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
+            Pending
+          </Badge>
+        );
+      case "refunded":
+        return (
+          <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+            Refunded
+          </Badge>
+        );
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -104,14 +139,14 @@ export default async function FinancePage() {
   // Get method display name
   const getMethodName = (method: string) => {
     switch (method) {
-      case 'card':
-        return 'Credit/Debit Card';
-      case 'netbanking':
-        return 'Net Banking';
-      case 'wallet':
-        return 'Wallet';
-      case 'upi':
-        return 'UPI';
+      case "card":
+        return "Credit/Debit Card";
+      case "netbanking":
+        return "Net Banking";
+      case "wallet":
+        return "Wallet";
+      case "upi":
+        return "UPI";
       default:
         return method.charAt(0).toUpperCase() + method.slice(1);
     }
@@ -148,7 +183,10 @@ export default async function FinancePage() {
               <div>
                 <h3 className="font-semibold">Unable to fetch Razorpay data</h3>
                 <p className="text-sm">{errorMessage}</p>
-                <p className="text-xs mt-1">Please check your Razorpay credentials in environment variables.</p>
+                <p className="text-xs mt-1">
+                  Please check your Razorpay credentials in environment
+                  variables.
+                </p>
               </div>
             </div>
           </CardContent>
@@ -223,13 +261,13 @@ export default async function FinancePage() {
                         ₹{payment.amount.toLocaleString()}
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline">{getMethodName(payment.method)}</Badge>
+                        <Badge variant="outline">
+                          {getMethodName(payment.method)}
+                        </Badge>
                       </TableCell>
-                      <TableCell>
-                        {getStatusBadge(payment.status)}
-                      </TableCell>
+                      <TableCell>{getStatusBadge(payment.status)}</TableCell>
                       <TableCell className="max-w-32 truncate">
-                        {payment.contact || payment.email || 'N/A'}
+                        {payment.contact || payment.email || "N/A"}
                       </TableCell>
                       <TableCell className="text-sm">
                         {payment.createdAt.toLocaleDateString()}
@@ -242,7 +280,9 @@ export default async function FinancePage() {
               <div className="text-center py-8 text-muted-foreground">
                 <CreditCard className="w-12 h-12 mx-auto mb-4 opacity-50" />
                 <p>No transactions found</p>
-                <p className="text-sm">Payments will appear here once configured</p>
+                <p className="text-sm">
+                  Payments will appear here once configured
+                </p>
               </div>
             )}
           </CardContent>
@@ -255,26 +295,33 @@ export default async function FinancePage() {
               <DollarSign className="w-5 h-5 text-green-600" />
               Payment Methods
             </CardTitle>
-            <CardDescription>
-              Breakdown by payment method
-            </CardDescription>
+            <CardDescription>Breakdown by payment method</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {Object.entries(data.summary.paymentsByMethod).length > 0 ? (
-                Object.entries(data.summary.paymentsByMethod).map(([method, count], index) => (
-                  <div key={index} className="flex justify-between items-center">
-                    <div>
-                      <p className="font-medium">{getMethodName(method)}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {count} transactions
-                      </p>
+                Object.entries(data.summary.paymentsByMethod).map(
+                  ([method, count], index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center"
+                    >
+                      <div>
+                        <p className="font-medium">{getMethodName(method)}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {count} transactions
+                        </p>
+                      </div>
+                      <Badge variant="outline">
+                        {(
+                          (count / data.summary.totalTransactions) *
+                          100
+                        ).toFixed(1)}
+                        %
+                      </Badge>
                     </div>
-                    <Badge variant="outline">
-                      {((count / data.summary.totalTransactions) * 100).toFixed(1)}%
-                    </Badge>
-                  </div>
-                ))
+                  )
+                )
               ) : (
                 <div className="text-center py-4 text-muted-foreground">
                   <p className="text-sm">No payment method data available</p>
@@ -292,26 +339,32 @@ export default async function FinancePage() {
             <TrendingUp className="w-5 h-5 text-blue-600" />
             Payment Status Overview
           </CardTitle>
-          <CardDescription>
-            Transaction status distribution
-          </CardDescription>
+          <CardDescription>Transaction status distribution</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-green-50 dark:bg-green-950 rounded-lg">
-              <div className="text-2xl font-bold text-green-600">{data.summary.successfulTransactions}</div>
+              <div className="text-2xl font-bold text-green-600">
+                {data.summary.successfulTransactions}
+              </div>
               <div className="text-sm text-green-600">Successful</div>
             </div>
             <div className="text-center p-4 bg-red-50 dark:bg-red-950 rounded-lg">
-              <div className="text-2xl font-bold text-red-600">{data.summary.failedTransactions}</div>
+              <div className="text-2xl font-bold text-red-600">
+                {data.summary.failedTransactions}
+              </div>
               <div className="text-sm text-red-600">Failed</div>
             </div>
             <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-950 rounded-lg">
-              <div className="text-2xl font-bold text-yellow-600">{data.summary.pendingTransactions}</div>
+              <div className="text-2xl font-bold text-yellow-600">
+                {data.summary.pendingTransactions}
+              </div>
               <div className="text-sm text-yellow-600">Pending</div>
             </div>
             <div className="text-center p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">{data.summary.totalTransactions}</div>
+              <div className="text-2xl font-bold text-blue-600">
+                {data.summary.totalTransactions}
+              </div>
               <div className="text-sm text-blue-600">Total</div>
             </div>
           </div>
