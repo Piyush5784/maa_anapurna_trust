@@ -50,28 +50,20 @@ export default function StoryForm({
   const form = useForm<StoryFormData>({
     resolver: zodResolver(StoryFormSchema) as any,
     defaultValues: {
-      title: initialData?.title ?? "Sample Story Title",
-      excerpt:
-        initialData?.excerpt ??
-        "This is a sample excerpt that describes the story briefly and engages readers to learn more about the content.",
-      content:
-        initialData?.content ??
-        "This is the main content of the story. It tells about the impact, experiences, and meaningful moments that showcase the organization's work and mission. The content should be engaging and informative, providing readers with valuable insights.",
-      content2:
-        initialData?.content2 ??
-        "This section contains additional content, conclusions, or call-to-action. It wraps up the story and encourages readers to get involved, volunteer, or support the cause in meaningful ways.",
+      title: initialData?.title,
+      excerpt: initialData?.excerpt,
+      content: initialData?.content,
+      content2: initialData?.content2,
       category: initialData?.category ?? "COMMUNITY",
       coverImage: initialData?.coverImage,
       images: initialData?.images ?? [],
-      tags: initialData?.tags ?? ["community", "impact", "volunteer"],
-      authorName: initialData?.authorName ?? "John Doe",
-      authorRole: initialData?.authorRole ?? "Community Volunteer",
+      tags: initialData?.tags,
+      authorName: initialData?.authorName,
+      authorRole: initialData?.authorRole,
       status: initialData?.status ?? "DRAFT",
       featured: initialData?.featured ?? false,
-      metaTitle: initialData?.metaTitle ?? "Sample Story - Making a Difference",
-      metaDescription:
-        initialData?.metaDescription ??
-        "Read about our community impact story and how volunteers are making a difference in people's lives.",
+      metaTitle: initialData?.metaTitle,
+      metaDescription: initialData?.metaDescription,
       readTime: initialData?.readTime ?? 5,
     },
   });
