@@ -87,19 +87,20 @@ const Providing = () => {
         >
           <div className="relative w-80 h-60 mb-6">
             <Image
-              src="/cards/group-2.jpg"
+              src="/sections/plants.jpg"
               alt="Tree planting and environmental restoration"
               fill
               className="object-cover rounded-lg"
             />
           </div>
           <div>
-            <p className="text-3xl py-5">Community Gardens</p>
+            <p className="text-3xl py-5">Tree Planting</p>
             <p className="text-gray-500">
-              We help establish kitchen gardens{" "}
+              We organize tree planting drives{" "}
               <br className="hidden md:block" />
-              in rural communities, teaching <br className="hidden md:block" />
-              sustainable farming for food security.
+              across Assam to restore forests and{" "}
+              <br className="hidden md:block" />
+              combat climate change in our region.
             </p>
           </div>
         </motion.div>

@@ -57,10 +57,10 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold mb-1">Email</h3>
                         <p className="text-muted-foreground text-sm">
-                          info@mat.org
+                          podderraj13@gmail.com
                         </p>
                         <p className="text-muted-foreground text-sm">
-                          support@mat.org
+                          maaannapurnatrust1@gmail.com
                         </p>
                       </div>
                     </div>
@@ -74,21 +74,21 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold mb-1">Phone</h3>
                         <p className="text-muted-foreground text-sm">
-                          +1 (555) 123-4567
+                          (+91) 8822993515
                         </p>
-                        <p className="text-muted-foreground text-sm">
+                        {/* <p className="text-muted-foreground text-sm">
                           +1 (555) 987-6543
-                        </p>
+                        </p> */}
                       </div>
                     </div>
 
                     <Separator />
 
-                    <div className="flex items-start space-x-4">
+                    {/* <div className="flex items-start space-x-4">
                       <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                         <MapPin className="w-6 h-6 text-primary" />
                       </div>
-                      <div>
+                      {/* <div>
                         <h3 className="font-semibold mb-1">Address</h3>
                         <p className="text-muted-foreground text-sm">
                           123 Community Street
@@ -97,8 +97,8 @@ export default function ContactPage() {
                           <br />
                           City, State 12345
                         </p>
-                      </div>
-                    </div>
+                      </div> 
+                    </div> */}
                   </div>
                 </CardContent>
               </Card>
@@ -184,28 +184,13 @@ export default function ContactPage() {
                     business days.
                   </p>
                 </div>
-                <div>
-                  <h4 className="font-semibold mb-2">
-                    Do you offer emergency services?
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    Yes, we have a 24/7 emergency hotline for urgent situations.
-                  </p>
-                </div>
+
                 <div>
                   <h4 className="font-semibold mb-2">
                     Can I volunteer remotely?
                   </h4>
                   <p className="text-sm text-muted-foreground">
                     We offer both in-person and remote volunteer opportunities.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">
-                    How can I schedule a visit?
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    Contact us via phone or email to schedule an appointment.
                   </p>
                 </div>
               </div>
