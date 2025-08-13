@@ -1,39 +1,39 @@
 import Image from "next/image";
 const testimonials = [
   {
-    name: "Robert Johnson",
+    name: "Rahul Sharma",
     image: "/testimonials/boy-eating-food.jpg",
-    text: "Being part of their volunteer program has been life-changing. Seeing the direct impact we make in people's lives is incredibly rewarding.",
+    text: "When floods hit our village in Assam, Maa Anapurna Trust was the first to reach us with hot meals. Their mobile kitchen saved our family during the most difficult time.",
   },
   {
-    name: "Maria Santos",
+    name: "Priya Devi",
     image: "/testimonials/child1.jpg",
-    text: "Thanks to this amazing organization, my children now have access to nutritious meals every day. They've helped transform our entire community.",
+    text: "My children were malnourished before Maa Anapurna Trust started their food distribution program in our area. Now they receive nutritious meals daily and are healthier than ever.",
   },
   {
-    name: "James Mitchell",
+    name: "Mukesh Baruah",
     image: "/testimonials/childrens.jpeg",
-    text: "The education programs have given our children hope for a better future. We've seen remarkable improvements in literacy rates since they started working here.",
+    text: "As a volunteer with their tree plantation drive, I've seen how we've transformed barren lands into green spaces. We've planted over 500 trees in our district this year alone.",
   },
   {
-    name: "Fatima Al-Rahman",
+    name: "Anita Gogoi",
     image: "/testimonials/clothes.jpg",
-    text: "The school supplies and educational resources provided have made such a difference. Our students are more engaged and excited about learning.",
+    text: "During winter, Maa Anapurna Trust provided warm clothes for my elderly mother and newborn baby. Their clothing distribution program is a blessing for poor families like ours.",
   },
   {
-    name: "David Brown",
+    name: "Dr. Biman Das",
     image: "/testimonials/group.jpg",
-    text: "Professional and creative! They transformed my space into something extraordinary. I’m still amazed at the final result.",
+    text: "I've been coordinating with Maa Anapurna Trust's blood donation camps. Their volunteers are dedicated and have helped save numerous lives in our local hospital.",
   },
   {
-    name: "Amara Okafor",
+    name: "Ruma Kalita",
     image: "/testimonials/Volenteer.jpeg",
-    text: "When my family lost everything, they provided us with clothing, food, and hope. Their kindness and support helped us get back on our feet.",
+    text: "Being a volunteer with Maa Anapurna Trust has taught me the joy of giving. Whether it's serving food or organizing blood camps, every activity brings hope to our community.",
   },
   {
-    name: "Dr. Sarah Chen",
+    name: "Jyoti Borah",
     image: "/testimonials/plants.jpg",
-    text: "Their tree planting initiatives are making a real difference in combating climate change. The reforestation projects have restored entire ecosystems.",
+    text: "Thanks to their environmental initiatives, our village now has cleaner air and better soil. The saplings they provided have grown into beautiful trees that benefit everyone.",
   },
 ];
 
@@ -49,7 +49,7 @@ const Testimonials = () => {
             </h1>
             <h3 className="text-xl mb-5 font-light">
               Hear from the communities and volunteers whose lives have been
-              transformed through our work together
+              transformed through our work together in Assam
             </h3>
             <div className="text-center mb-10">
               <span className="inline-block w-1 h-1 rounded-full bg-black ml-1"></span>
@@ -74,7 +74,7 @@ const Testimonials = () => {
                   </div>
                   <div className="flex-grow pl-3">
                     <h6 className="font-bold text-sm uppercase text-gray-600">
-                      Kenzie Edgar.
+                      {testimonials[0].name}
                     </h6>
                   </div>
                 </div>
@@ -83,9 +83,7 @@ const Testimonials = () => {
                     <span className="text-lg leading-none italic font-bold text-gray-400 mr-1">
                       "
                     </span>
-                    The service was outstanding! From start to finish, the team
-                    was professional and attentive to all my needs. Highly
-                    recommend!
+                    {testimonials[0].text}
                     <span className="text-lg leading-none italic font-bold text-gray-400 ml-1">
                       "
                     </span>
@@ -105,7 +103,7 @@ const Testimonials = () => {
                   </div>
                   <div className="flex-grow pl-3">
                     <h6 className="font-bold text-sm uppercase text-gray-600">
-                      Stevie Tifft.
+                      {testimonials[1].name}
                     </h6>
                   </div>
                 </div>
@@ -136,7 +134,7 @@ const Testimonials = () => {
                   </div>
                   <div className="flex-grow pl-3">
                     <h6 className="font-bold text-sm uppercase text-gray-600">
-                      Tommie Ewart.
+                      {testimonials[2].name}
                     </h6>
                   </div>
                 </div>
@@ -165,7 +163,7 @@ const Testimonials = () => {
                   </div>
                   <div className="flex-grow pl-3">
                     <h6 className="font-bold text-sm uppercase text-gray-600">
-                      Charlie Howse.
+                      {testimonials[3].name}
                     </h6>
                   </div>
                 </div>
@@ -196,7 +194,7 @@ const Testimonials = () => {
                   </div>
                   <div className="flex-grow pl-3">
                     <h6 className="font-bold text-sm uppercase text-gray-600">
-                      Nevada Herbertson.
+                      {testimonials[4].name}
                     </h6>
                   </div>
                 </div>
@@ -225,7 +223,7 @@ const Testimonials = () => {
                   </div>
                   <div className="flex-grow pl-3">
                     <h6 className="font-bold text-sm uppercase text-gray-600">
-                      Kris Stanton.
+                      {testimonials[5].name}
                     </h6>
                   </div>
                 </div>

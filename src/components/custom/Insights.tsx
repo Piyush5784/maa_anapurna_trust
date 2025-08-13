@@ -8,18 +8,18 @@ const Insights = () => {
         </p>
         <div className="flex mt-10 md:mt-0 gap-6 md:gap-4 flex-col md:flex-row">
           <div>
-            <p className="text-4xl">15+</p>
+            <p className="text-4xl">2+</p>
             <p className="text-gray-500"> years of experience</p>
           </div>
           <hr className="w-[0.5px] bg-gray-200  h-full" />
           <div>
-            <p className="text-4xl">84k</p>
-            <p className="text-gray-500"> Customers worldwide</p>
+            <p className="text-4xl">2K+</p>
+            <p className="text-gray-500"> Supports accross Assam</p>
           </div>
           <hr className="w-[0.5px] bg-gray-200  h-full" />
           <div>
-            <p className="text-4xl">600+</p>
-            <p className="text-gray-500"> Project completed</p>
+            <p className="text-4xl">20+</p>
+            <p className="text-gray-500"> Successfull drives</p>
           </div>
         </div>
       </div>

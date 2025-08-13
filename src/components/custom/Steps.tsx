@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Steps = () => {
   return (
-    <div className="bg-[#fff0a3] dark:bg-gray-900 mt-14 p-5">
+    <div className="bg-[#fff0a3] dark:bg-gray-900  p-5">
       <div className="text-center p-10">
         <motion.p
           className="font-bold text-4xl text-gray-900 dark:text-white"

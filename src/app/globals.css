@@ -209,3 +209,16 @@
     transform: scale(1.2, 1);
   }
 }
+
+button {
+  cursor: pointer !important;
+  animation-duration: 100ms;
+  transition-duration: 100ms;
+}
+
+button:hover {
+  scale: 105% !important;
+
+  animation-duration: 100ms;
+  transition-duration: 100ms;
+}

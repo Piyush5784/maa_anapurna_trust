@@ -18,9 +18,9 @@ const Providing = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
       >
-        We are dedicated to supporting communities worldwide with essential
-        needs <br className="hidden md:block" />
-        and environmental restoration to create a sustainable future for all.
+        We are dedicated to nourishing communities across Assam with wholesome
+        meals <br className="hidden md:block" />
+        and compassionate support to create food security for all families.
       </motion.p>
 
       <div className="flex items-center flex-col md:pl-20 lg:flex-row gap-32 p-5 pb-0 pt-10 justify-center">
@@ -42,11 +42,11 @@ const Providing = () => {
           <div>
             <p className="text-3xl py-5">Food Security</p>
             <p className="text-gray-500">
-              We provide nutritious meals and food{" "}
+              We provide fresh, nutritious meals and food{" "}
               <br className="hidden md:block" />
-              packages to families in need. Our{" "}
+              packages to families across Assam. Our{" "}
               <br className="hidden md:block" />
-              goal is ensuring no one goes hungry.
+              mobile kitchens reach remote villages daily.
             </p>
           </div>
         </motion.div>
@@ -67,13 +67,13 @@ const Providing = () => {
             />
           </div>
           <div>
-            <p className="text-3xl py-5">Clothing Assistance</p>
+            <p className="text-3xl py-5">Emergency Relief</p>
             <p className="text-gray-500">
-              We distribute clothing and essential{" "}
+              During floods and disasters in Assam,{" "}
               <br className="hidden md:block" />
-              items to those in need, ensuring{" "}
+              we provide immediate food relief{" "}
               <br className="hidden md:block" />
-              dignity and comfort for everyone.
+              to affected communities and families.
             </p>
           </div>
         </motion.div>
@@ -94,12 +94,12 @@ const Providing = () => {
             />
           </div>
           <div>
-            <p className="text-3xl py-5">Tree Planting</p>
+            <p className="text-3xl py-5">Community Gardens</p>
             <p className="text-gray-500">
-              We plant trees to combat climate{" "}
+              We help establish kitchen gardens{" "}
               <br className="hidden md:block" />
-              change and restore ecosystems for{" "}
-              <br className="hidden md:block" />a healthier planet and future.
+              in rural communities, teaching <br className="hidden md:block" />
+              sustainable farming for food security.
             </p>
           </div>
         </motion.div>

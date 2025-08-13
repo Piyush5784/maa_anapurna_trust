@@ -2,36 +2,36 @@ import { Topbar } from "@/components/custom/topbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | MAT",
+  title: "About Us | Maa Anapurna Trust",
   description:
-    "Learn about our mission, values, and the impact we're making in our community through dedicated service and support.",
+    "Learn about Maa Anapurna Trust's mission to feed communities, plant trees, provide clothing, and organize blood donation camps across Assam.",
 };
 
 export default function AboutPage() {
   const teamMembers = [
     {
-      name: "Sarah Johnson",
-      role: "Executive Director",
-      bio: "With over 15 years in nonprofit management, Sarah leads our organization with passion and vision.",
-      image: "/team/sarah.jpg",
+      name: "Raj Poddar",
+      role: "Founder & Chairman",
+      bio: "A dedicated social worker from Assam who started Maa Anapurna Trust with the vision of eliminating hunger from the state.",
+      image: "/team/ramesh.jpg",
     },
     {
-      name: "Michael Chen",
-      role: "Program Director",
-      bio: "Michael oversees our community programs and ensures we're meeting the needs of those we serve.",
-      image: "/team/michael.jpg",
+      name: "Mira Devi",
+      role: "President",
+      bio: "Dr. Kalita oversees our blood donation camps and ensures medical safety protocols in all our health-related activities.",
+      image: "/team/priya.jpg",
     },
     {
-      name: "Dr. Maria Rodriguez",
-      role: "Health Services Coordinator",
-      bio: "Dr. Rodriguez brings medical expertise and compassion to our health and wellness initiatives.",
-      image: "/team/maria.jpg",
+      name: "Guddu Shah",
+      role: "Co-founder",
+      bio: "Leading our tree plantation initiatives across Assam, Mukesh has coordinated the planting of over 10,000 trees.",
+      image: "/team/mukesh.jpg",
     },
     {
-      name: "James Thompson",
-      role: "Youth Programs Manager",
-      bio: "James works with young people in our community, providing mentorship and leadership opportunities.",
-      image: "/team/james.jpg",
+      name: "Unknown Person",
+      role: "Community Outreach Manager",
+      bio: "Anita manages our food and clothing distribution programs, ensuring we reach the most vulnerable communities in rural Assam.",
+      image: "/team/anita.jpg",
     },
   ];
 
@@ -39,77 +39,83 @@ export default function AboutPage() {
     {
       title: "Compassion",
       description:
-        "We approach every interaction with empathy and understanding, recognizing the dignity in every person.",
+        "We serve with love and empathy, treating every person with dignity and respect, regardless of their circumstances.",
       icon: "heart",
     },
     {
-      title: "Integrity",
+      title: "Service",
       description:
-        "We are transparent, honest, and accountable in all our actions and use of resources.",
+        "Our commitment to selfless service drives us to help those in need through food, clothing, and environmental care.",
       icon: "shield",
-    },
-    {
-      title: "Empowerment",
-      description:
-        "We believe in building capacity and helping people achieve self-sufficiency and independence.",
-      icon: "trending-up",
     },
     {
       title: "Community",
       description:
-        "We foster connections and collaboration, knowing that together we can achieve more.",
+        "We believe in the power of community action and work together with volunteers to create lasting positive change.",
       icon: "users",
     },
     {
-      title: "Innovation",
+      title: "Sustainability",
       description:
-        "We continuously seek creative solutions to address evolving community needs.",
+        "Through tree plantation and environmental initiatives, we work towards a greener and more sustainable Assam.",
+      icon: "trending-up",
+    },
+    {
+      title: "Health & Wellness",
+      description:
+        "Our blood donation camps and health initiatives ensure the well-being of our community members.",
       icon: "lightbulb",
     },
     {
-      title: "Excellence",
+      title: "Transparency",
       description:
-        "We strive for the highest standards in our programs and services.",
+        "We maintain complete transparency in our operations and ensure every donation reaches those who need it most.",
       icon: "star",
     },
   ];
 
   const milestones = [
     {
-      year: "2019",
+      year: "2018",
       title: "Foundation Established",
       description:
-        "MAT was founded by a group of community leaders dedicated to making a difference.",
+        "Maa Anapurna Trust was founded in Assam with the mission to eliminate hunger and support communities in need.",
+    },
+    {
+      year: "2019",
+      title: "First Food Distribution",
+      description:
+        "Launched our first food distribution program, serving 200 families in rural Assam during the monsoon floods.",
     },
     {
       year: "2020",
-      title: "First Community Center",
+      title: "Tree Plantation Initiative",
       description:
-        "Opened our first community center, providing a hub for services and programs.",
+        "Started our environmental program with the planting of 1,000 saplings across various districts in Assam.",
     },
     {
       year: "2021",
-      title: "1,000 Lives Impacted",
+      title: "Blood Donation Camps",
       description:
-        "Reached our milestone of helping 1,000 community members through various programs.",
+        "Organized our first blood donation camp, collecting 100 units of blood for local hospitals during the pandemic.",
     },
     {
       year: "2022",
-      title: "Youth Leadership Program",
+      title: "Clothing Distribution Program",
       description:
-        "Launched our flagship youth development and leadership training program.",
+        "Launched clothing assistance program, providing warm clothes to over 500 families during harsh winters.",
     },
     {
       year: "2023",
-      title: "Healthcare Initiative",
+      title: "5,000 Lives Impacted",
       description:
-        "Expanded services to include healthcare access and wellness programs.",
+        "Reached the milestone of directly helping 5,000 individuals through our four core programs across Assam.",
     },
     {
       year: "2024",
-      title: "Regional Recognition",
+      title: "Community Recognition",
       description:
-        "Received state recognition for outstanding community service and impact.",
+        "Received recognition from the Assam government for outstanding community service and disaster relief efforts.",
     },
   ];
 
@@ -120,11 +126,14 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About MAT</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              About Maa Anapurna Trust
+            </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Making A Tomorrow (MAT) is dedicated to creating positive change
-              in our community through comprehensive support services,
-              education, and empowerment programs.
+              Named after the Hindu goddess of food and nourishment, Maa
+              Anapurna Trust is dedicated to serving communities across Assam
+              through food distribution, tree plantation, clothing assistance,
+              and blood donation programs.
             </p>
           </div>
 
@@ -148,10 +157,10 @@ export default function AboutPage() {
               </div>
               <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
               <p className="text-muted-foreground leading-relaxed">
-                To empower individuals and families in our community by
-                providing essential resources, educational opportunities, and
-                support services that promote self-sufficiency, dignity, and
-                hope for a better tomorrow.
+                To nourish and support communities across Assam by providing
+                essential food assistance, promoting environmental
+                sustainability through tree plantation, distributing clothing to
+                those in need, and organizing life-saving blood donation camps.
               </p>
             </div>
 
@@ -179,10 +188,11 @@ export default function AboutPage() {
               </div>
               <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
               <p className="text-muted-foreground leading-relaxed">
-                A community where every person has access to the resources and
-                opportunities they need to thrive, regardless of their
-                background or circumstances. We envision a future built on
-                equity, compassion, and collective prosperity.
+                To create a hunger-free, environmentally sustainable Assam where
+                every individual has access to nutritious food, adequate
+                clothing, and healthcare support. We envision thriving
+                communities built on compassion, environmental stewardship, and
+                collective care.
               </p>
             </div>
           </div>
@@ -272,10 +282,10 @@ export default function AboutPage() {
           {/* Our Story / Timeline */}
           <div className="mb-20">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Our Journey</h2>
+              <h2 className="text-3xl font-bold mb-4">Our Journey in Assam</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                From humble beginnings to community-wide impact, here's how
-                we've grown over the years.
+                From a small initiative to feed the hungry to a comprehensive
+                community service organization serving thousands across Assam.
               </p>
             </div>
 
@@ -358,52 +368,22 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Impact Statistics */}
-          <div className="bg-primary text-primary-foreground p-12 rounded-xl text-center mb-20">
-            <h2 className="text-3xl font-bold mb-8">
-              Our Impact by the Numbers
-            </h2>
-            <div className="grid md:grid-cols-4 gap-8">
-              <div>
-                <div className="text-4xl font-bold mb-2">2,500+</div>
-                <div className="text-primary-foreground/80">
-                  Lives Transformed
-                </div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">50+</div>
-                <div className="text-primary-foreground/80">
-                  Community Partners
-                </div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">15</div>
-                <div className="text-primary-foreground/80">
-                  Active Programs
-                </div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">500+</div>
-                <div className="text-primary-foreground/80">
-                  Volunteer Hours Monthly
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Call to Action */}
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">Join Our Mission</h2>
+            <h2 className="text-3xl font-bold mb-4">
+              Join Our Mission in Assam
+            </h2>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Whether through volunteering, donating, or partnering with us,
-              there are many ways to get involved and make a difference in our
-              community.
+              Whether through volunteering at food distribution drives,
+              participating in tree plantation, donating clothes, or joining
+              blood donation camps, there are many ways to contribute to our
+              cause in Assam.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-primary text-primary-foreground px-8 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium">
                 Volunteer With Us
               </button>
-              <button className="border border-input px-8 py-3 rounded-lg hover:bg-accent transition-colors font-medium">
+              <button className="border  border-input px-8 py-3 rounded-lg hover:bg-accent transition-colors font-medium">
                 Make a Donation
               </button>
               <button className="border border-input px-8 py-3 rounded-lg hover:bg-accent transition-colors font-medium">

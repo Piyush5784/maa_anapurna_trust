@@ -16,11 +16,11 @@ const OurWorks = () => {
             viewport={{ once: true }}
           >
             <h2 className="font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl pt-4 lg:pt-10 leading-tight">
-              Our Works
+              Our Impact in Assam
             </h2>
             <p className="py-4 sm:py-6 lg:py-8 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl">
-              See the real difference we're making in communities around the
-              world through your generous support.
+              Witness the transformative power of food security in communities
+              across Assam through our dedicated food distribution programs.
             </p>
           </motion.div>
 

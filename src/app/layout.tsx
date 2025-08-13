@@ -20,9 +20,9 @@ const InterFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Donate Today | Make a Difference",
+  title: "Maa Anapurna Trust | Feeding Assam with Love",
   description:
-    "Support causes that matter. Quick, secure, and impactful donations.",
+    "Join Maa Anapurna Trust in our mission to end hunger in Assam. We provide nutritious meals and food assistance to families in need across the state.",
 };
 
 export default function RootLayout({

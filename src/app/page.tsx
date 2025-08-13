@@ -27,8 +27,9 @@ export default function Home() {
         </p>
         <p className="text-center font-light pt-10 md:text-xl">
           {" "}
-          The world's largest social fundraising platform, <br /> optimized for
-          your charity in a more easy way.
+          Dedicated to ensuring no one goes hungry in our beautiful state of
+          Assam, <br />
+          we distribute food with love and compassion to those in need.
         </p>
 
         <div className="flex items-center  gap-2 justify-center pt-10">
@@ -36,14 +37,16 @@ export default function Home() {
             size={"lg"}
             className="bg-primary text-black hover:scale-105 duration-100 cursor-pointer flex gap-2 items-center justify-center  rounded-full"
           >
-            <Play size={16} /> Watch Video
+            <Play size={16} /> Watch Our Impact
           </Button>
           <Button
             asChild
             size={"lg"}
             className="bg-black hover:bg-black flex items-center justify-center gap-2 cursor-pointer hover:scale-105 duration-100  text-white md:px-10 px-6 py-4  rounded-full"
           >
-            <Link href={"https://rzp.io/rzp/AzVOiOzY"}>Donate now </Link>
+            <Link href={"https://rzp.io/rzp/AzVOiOzY"}>
+              Feed a Family Today
+            </Link>
           </Button>
         </div>
       </div>
@@ -51,21 +54,23 @@ export default function Home() {
       {/* Donation Cards Section */}
       <Cards />
       <InsightsSection />
-      <Steps />
       <OurWorks />
+      <Steps />
       <Providing />
       <Testimonials />
 
       <section className="bg-white px-5 w-full md:px-40">
         <div className=" md:px-6 py-12 mx-auto">
           <div className="text-center ">
-            <p className="  text-black font-bold text-4xl">Contact us</p>
+            <p className="  text-black font-bold text-4xl">Join Our Mission</p>
 
             <h1 className="mt-2 text-2xl font-semibold  md:text-3xl  text-black">
-              We’d love to hear from you
+              Help us feed more families in Assam
             </h1>
 
-            <p className="mt-3 text-gray-500 ">Chat to our friendly team.</p>
+            <p className="mt-3 text-gray-500 ">
+              Every meal makes a difference in someone's life.
+            </p>
           </div>
 
           <Image
@@ -73,7 +78,7 @@ export default function Home() {
             width={800}
             className="object-cover w-full h-64 mt-10 rounded-lg lg:h-96"
             src="/testimonials/group.jpg"
-            alt="reload"
+            alt="Community members receiving food assistance"
           />
         </div>
       </section>
