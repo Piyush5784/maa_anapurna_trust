@@ -14,10 +14,14 @@ export const metadata: Metadata = {
     "Read inspiring stories from our community and the positive impact we're making together.",
 };
 
+// Force dynamic rendering to ensure fresh data
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function StoriesPage() {
   // Fetch stories from backend
   const result = await getAllStories("PUBLISHED");
-  const allStories = result.success ? result.data : [];
+  const allStories = result?.success ? result?.data?.reverse() : [];
 
   // Filter featured and regular stories
   const featuredStories = allStories.filter((story: any) => story.featured);
@@ -59,6 +63,7 @@ export default async function StoriesPage() {
 
   return (
     <>
+      {/* {JSON.stringify(allStories)} */}
       <Topbar />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
@@ -90,16 +95,16 @@ export default async function StoriesPage() {
           </div>
 
           {/* Featured Story */}
-          {featuredStories.length > 0 && (
+          {allStories.length > 0 && (
             <div className="mb-16">
               <div className="bg-card rounded-xl overflow-hidden shadow-lg border">
                 <div className="md:flex">
                   <div className="md:w-1/2">
-                    {featuredStories[0].coverImage ? (
+                    {allStories[0].coverImage ? (
                       <div className="relative h-64 md:h-full">
                         <Image
-                          src={featuredStories[0].coverImage}
-                          alt={featuredStories[0].title}
+                          src={allStories[0].coverImage}
+                          alt={allStories[0].title}
                           fill
                           className="object-cover"
                         />
@@ -131,31 +136,29 @@ export default async function StoriesPage() {
                         Featured Story
                       </Badge>
                       <Badge
-                        className={getCategoryColor(
-                          featuredStories[0].category
-                        )}
+                        className={getCategoryColor(allStories[0].category)}
                       >
-                        {formatCategoryName(featuredStories[0].category)}
+                        {formatCategoryName(allStories[0].category)}
                       </Badge>
                     </div>
                     <h2 className="text-2xl font-bold mb-4">
-                      {featuredStories[0].title}
+                      {allStories[0].title}
                     </h2>
                     <p className="text-muted-foreground mb-6">
-                      {featuredStories[0].excerpt}
+                      {allStories[0].excerpt}
                     </p>
                     <div className="flex flex-wrap items-center text-sm text-muted-foreground mb-6 gap-4">
-                      {featuredStories[0].authorName && (
+                      {allStories[0].authorName && (
                         <div className="flex items-center gap-1">
                           <User className="w-4 h-4" />
-                          <span>{featuredStories[0].authorName}</span>
+                          <span>{allStories[0].authorName}</span>
                         </div>
                       )}
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
                         <span>
                           {formatDistance(
-                            new Date(featuredStories[0].createdAt),
+                            new Date(allStories[0].createdAt),
                             new Date(),
                             {
                               addSuffix: true,
@@ -163,18 +166,18 @@ export default async function StoriesPage() {
                           )}
                         </span>
                       </div>
-                      {featuredStories[0].readTime && (
+                      {allStories[0].readTime && (
                         <div className="flex items-center gap-1">
                           <Clock className="w-4 h-4" />
-                          <span>{featuredStories[0].readTime} min read</span>
+                          <span>{allStories[0].readTime} min read</span>
                         </div>
                       )}
                       <div className="flex items-center gap-1">
                         <Eye className="w-4 h-4" />
-                        <span>{featuredStories[0].views || 0} views</span>
+                        <span>{allStories[0].views || 0} views</span>
                       </div>
                     </div>
-                    <Link href={`/Stories/${featuredStories[0].id}`}>
+                    <Link href={`/Stories/${allStories[0].id}`}>
                       <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
                         Read Full Story
                       </Button>
@@ -214,10 +217,9 @@ export default async function StoriesPage() {
             </div>
           )}
 
-          {/* Stories Grid */}
-          {regularStories.length > 0 && (
+          {allStories?.length > 1 && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {regularStories.map((story: any) => (
+              {allStories?.slice(1)?.map((story: any) => (
                 <article
                   key={story.id}
                   className="bg-card rounded-lg overflow-hidden shadow-sm border hover:shadow-md transition-all duration-200"
@@ -340,7 +342,7 @@ export default async function StoriesPage() {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary mb-2">
-                {featuredStories.length}
+                {allStories.length}
               </div>
               <div className="text-muted-foreground">Featured Stories</div>
             </div>

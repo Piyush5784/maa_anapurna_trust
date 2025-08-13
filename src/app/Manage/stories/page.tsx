@@ -123,7 +123,7 @@ async function StoriesPage() {
           </p>
         </div>
         <Link href="/Manage/stories/create">
-          <Button className="bg-green-600 hover:bg-green-700">
+          <Button className="bg-green-600 text-white hover:bg-green-700">
             <Plus className="w-4 h-4 mr-2" />
             Create Story
           </Button>
@@ -179,7 +179,7 @@ async function StoriesPage() {
                 community.
               </p>
               <Link href="/Manage/stories/create">
-                <Button className="bg-green-600 hover:bg-green-700">
+                <Button className="bg-green-600 text-white hover:bg-green-700">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Your First Story
                 </Button>

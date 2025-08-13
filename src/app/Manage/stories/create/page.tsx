@@ -16,7 +16,7 @@ function Page() {
     try {
       // Create FormData to handle files
       const formData = new FormData();
-      
+
       // Add text fields
       formData.append("title", data.title);
       formData.append("excerpt", data.excerpt);
@@ -26,21 +26,22 @@ function Page() {
       formData.append("authorName", data.authorName);
       formData.append("status", data.status);
       formData.append("featured", data.featured.toString());
-      
+
       // Add optional fields
       if (data.authorRole) formData.append("authorRole", data.authorRole);
       if (data.metaTitle) formData.append("metaTitle", data.metaTitle);
-      if (data.metaDescription) formData.append("metaDescription", data.metaDescription);
+      if (data.metaDescription)
+        formData.append("metaDescription", data.metaDescription);
       if (data.readTime) formData.append("readTime", data.readTime.toString());
-      
+
       // Add tags as JSON string
       formData.append("tags", JSON.stringify(data.tags || []));
-      
+
       // Add cover image if present
       if (data.coverImage instanceof File) {
         formData.append("coverImage", data.coverImage);
       }
-      
+
       // Add additional images if present
       if (data.images && Array.isArray(data.images)) {
         data.images.forEach((image, index) => {
