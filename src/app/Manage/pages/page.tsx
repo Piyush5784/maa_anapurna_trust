@@ -1,13 +1,15 @@
+import Loader from "@/components/custom/loader";
 import { Topbar } from "@/components/custom/topbar";
 import { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Pages | MAT",
   description: "Explore all available pages and resources on our website.",
 };
 
-export default function PagesPage() {
+function PagesPage() {
   const pageCategories = [
     {
       title: "Main Pages",
@@ -261,5 +263,13 @@ export default function PagesPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <PagesPage />
+    </Suspense>
   );
 }

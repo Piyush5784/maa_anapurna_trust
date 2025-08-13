@@ -17,6 +17,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Settings, Globe, Shield, Mail, Save, RefreshCw } from "lucide-react";
+import { Suspense } from "react";
+import Loader from "@/components/custom/loader";
 
 const settingsSections = [
   {
@@ -55,7 +57,7 @@ const settingsSections = [
   },
 ];
 
-export default function SettingsPage() {
+function SettingsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -170,5 +172,13 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <SettingsPage />
+    </Suspense>
   );
 }

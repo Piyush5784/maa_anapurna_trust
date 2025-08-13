@@ -28,12 +28,15 @@ import {
 } from "lucide-react";
 import { fetchLatestRazorpayPayments } from "@/lib/actions/razorpay";
 import { RefreshButton } from "@/components/custom/RefreshButton";
+import { Suspense } from "react";
+import StoriesLoading from "@/app/Stories/storySkeleton";
+import Loader from "@/components/custom/loader";
 
 // Force dynamic rendering to ensure fresh data
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function FinancePage() {
+async function FinancePage() {
   // Get current timestamp for cache debugging
   const fetchTime = new Date().toISOString();
   console.log("[FINANCE PAGE] Rendering at:", fetchTime);
@@ -408,5 +411,13 @@ export default async function FinancePage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <FinancePage />
+    </Suspense>
   );
 }

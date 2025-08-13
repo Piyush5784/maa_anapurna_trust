@@ -23,8 +23,10 @@ import {
   Clock,
 } from "lucide-react";
 import { getProtectedAnalytics } from "@/lib/actions/analytics";
+import Loader from "@/components/custom/loader";
+import { Suspense } from "react";
 
-export default async function AnalyticsPage() {
+async function AnalyticsPage() {
   // Fetch analytics data using server action
   const result = await getProtectedAnalytics(30);
 
@@ -244,5 +246,13 @@ export default async function AnalyticsPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <AnalyticsPage />
+    </Suspense>
   );
 }

@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import { getAllMessage, getContactStats } from "@/lib/actions/contact";
 import { Contact } from "@/generated/prisma";
+import { Suspense } from "react";
+import Loader from "@/components/custom/loader";
 
 // Helper function to format date
 function formatDate(date: Date) {
@@ -60,7 +62,7 @@ function getSubjectColor(subject: string) {
   return colorMap[subject] || "bg-gray-600";
 }
 
-export default async function CommunicationPage() {
+async function CommunicationPage() {
   // Fetch data from the database
   const [messagesResult, statsResult] = await Promise.all([
     getAllMessage(),
@@ -318,5 +320,13 @@ export default async function CommunicationPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <CommunicationPage />
+    </Suspense>
   );
 }

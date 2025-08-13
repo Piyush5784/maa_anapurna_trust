@@ -21,13 +21,14 @@ import { prisma } from "@/db/prisma";
 import { Logtype } from "@/generated/prisma";
 import { Filter, RefreshCw, Search } from "lucide-react";
 import { LogsData } from "@/components/custom/LogsData";
+import Loader from "@/components/custom/loader";
 
 // Force dynamic rendering to ensure fresh data
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 // Main page component with filters
-export default async function LogsPage({
+async function LogsPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -114,5 +115,17 @@ export default async function LogsPage({
         <LogsData level={level} source={source} search={search} page={page} />
       </Suspense>
     </div>
+  );
+}
+
+export default function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  return (
+    <Suspense fallback={<Loader />}>
+      <LogsPage searchParams={searchParams} />
+    </Suspense>
   );
 }

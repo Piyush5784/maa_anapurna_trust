@@ -28,6 +28,8 @@ import Link from "next/link";
 import { getAllStories } from "@/lib/actions/story";
 import { formatDistance } from "date-fns";
 import DeleteStoryDialog from "@/components/custom/DeleteStoryDialog";
+import { Suspense } from "react";
+import Loader from "@/components/custom/loader";
 
 async function StoriesPage() {
   const result = await getAllStories();
@@ -380,4 +382,10 @@ async function StoriesPage() {
   );
 }
 
-export default StoriesPage;
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <StoriesPage />
+    </Suspense>
+  );
+}

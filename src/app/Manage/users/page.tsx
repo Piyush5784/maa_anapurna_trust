@@ -27,6 +27,8 @@ import {
 import { getUsers, getUserStats } from "@/lib/actions/users";
 import UserActions from "@/components/custom/UserActions";
 import { User } from "@/generated/prisma";
+import { Suspense } from "react";
+import Loader from "@/components/custom/loader";
 
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("en-US", {
@@ -44,7 +46,7 @@ function getUserRole(user: User): string {
   return user.emailVerified ? "User" : "Pending";
 }
 
-export default async function UsersPage() {
+async function UsersPage() {
   const [users, stats] = await Promise.all([getUsers(), getUserStats()]);
 
   return (
@@ -195,5 +197,13 @@ export default async function UsersPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <UsersPage />
+    </Suspense>
   );
 }

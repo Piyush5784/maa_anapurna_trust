@@ -45,6 +45,7 @@ import { getUsers, getUserStats } from "@/lib/actions/users";
 import UserActions from "@/components/custom/UserActions";
 import { User } from "@/generated/prisma";
 import { ROLE_USER } from "../static/SD";
+import Loader from "./loader";
 
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("en-US", {
@@ -148,13 +149,7 @@ export default function UserManagementTable() {
   };
 
   if (loading) {
-    return (
-      <div className="space-y-6">
-        <div className="flex justify-center items-center py-12">
-          <div className="text-gray-500">Loading users...</div>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
