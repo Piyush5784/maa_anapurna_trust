@@ -17,6 +17,9 @@ import {
 } from "lucide-react";
 import { getStoryById } from "@/lib/actions/story";
 import { formatDistance, format } from "date-fns";
+import { Topbar } from "@/components/custom/topbar";
+import { Suspense } from "react";
+import StoryLoading from "./loading";
 
 interface StoryPageProps {
   params: Promise<{
@@ -48,9 +51,7 @@ export async function generateMetadata({
     },
   };
 }
-
-export default async function StoryPage({ params }: StoryPageProps) {
-  const { id } = await params;
+async function StoryContent({ id }: { id: string }) {
   const result = await getStoryById(id);
 
   if (!result.success || !result.data) {
@@ -82,8 +83,9 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Topbar />
       {/* Navigation */}
-      <div className="bg-white border-b">
+      <div className=" border-b container mx-auto max-w-4xl">
         <div className="container mx-auto px-4 py-4">
           <Link href="/Stories">
             <Button variant="ghost" className="gap-2">
@@ -280,5 +282,16 @@ export default async function StoryPage({ params }: StoryPageProps) {
         </footer>
       </article>
     </div>
+  );
+}
+
+export default async function StoryPage({ params }: StoryPageProps) {
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
+
+  return (
+    <Suspense fallback={<StoryLoading />}>
+      <StoryContent id={id} />
+    </Suspense>
   );
 }

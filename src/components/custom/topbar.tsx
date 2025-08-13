@@ -10,7 +10,7 @@ import Link from "next/link";
 import LoginButton from "./LoginButton";
 import { useSession } from "next-auth/react";
 
-export const Topbar = () => {
+export const Topbar = ({ showDuration = true }: { showDuration?: boolean }) => {
   const [showMenu, setShowMenu] = useState(false);
   const navItems = [
     { label: "Home", href: "/" },
@@ -25,7 +25,7 @@ export const Topbar = () => {
       <motion.div
         initial={{ y: "-400px" }}
         animate={{ y: "0px" }}
-        className="h-[150px] duration-100"
+        className={`h-[150px] ${showDuration && "duration-100"}`}
       >
         <div className="flex items-center justify-center">
           <div className="rounded-lg border md:w-[80%] w-full  shadow-lg flex justify-between m-4  p-3 items-center">
@@ -71,7 +71,7 @@ export const Topbar = () => {
         </div>
         <div
           className={`flex duration-300 flex-col z-10 bg-white border justify-center items-center shadow-xl relative ${
-            showMenu ? "top-0" : "top-[-500px]"
+            showMenu ? "top-0" : "top-[-400px]"
           }  m-4 rounded-3xl p-1`}
         >
           <div className={` w-full text-center p-2`}>
