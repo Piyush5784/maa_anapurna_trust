@@ -38,4 +38,12 @@ export default function LoginButton() {
         </Button>
       </>
     );
+  if (session.data?.user.role !== ROLE_ADMIN)
+    return (
+      <>
+        <Button variant="outline" disabled className="gap-2">
+          Admin Only
+        </Button>
+      </>
+    );
 }
