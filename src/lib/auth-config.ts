@@ -56,7 +56,6 @@ export const authOptions: NextAuthOptions = {
       }
     },
     async jwt({ token, user }) {
-      console.log("[AUTH] JWT callback - token:", !!token, "user:", !!user);
 
       if (user) {
         // Get user from database
